@@ -1,4 +1,5 @@
 import React from "react"
+import { TaskList } from "./TaskList"
 import { Task } from "./todo"
 
 type Props = {
@@ -8,9 +9,7 @@ type Props = {
 function App({ tasks = [] }: Props) {
   return (
     <div>
-      {tasks?.map((task, index) => (
-        <div key={index}>{task.content}</div>
-      ))}
+      <TaskList tasks={tasks} />
     </div>
   )
 }
