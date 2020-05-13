@@ -4,11 +4,13 @@ import App from "./App"
 import { Task } from "./todo"
 
 test("タスクの一覧表示", () => {
+  const { getByText, getAllByText, rerender } = render(<App />)
+  expect(getByText(/empty/i)).toBeInTheDocument()
+
   const tasks: ReadonlyArray<Task> = [
     { content: "task1" },
     { content: "task2" },
   ]
-  const { getAllByText } = render(<App tasks={tasks} />)
-
+  rerender(<App tasks={tasks} />)
   expect(getAllByText(/task./i)).toHaveLength(tasks.length)
 })

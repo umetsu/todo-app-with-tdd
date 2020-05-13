@@ -9,9 +9,11 @@ type Props = {
 export function TaskList({ tasks }: Props) {
   return (
     <div>
-      {tasks.map((task, index) => (
-        <TaskItem key={index} task={task} />
-      ))}
+      {tasks.length === 0 ? (
+        <div>Empty</div>
+      ) : (
+        tasks.map((task, index) => <TaskItem key={index} task={task} />)
+      )}
     </div>
   )
 }
