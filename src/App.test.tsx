@@ -6,8 +6,11 @@ import { App } from "./App"
 test("タスクの追加と一覧表示", () => {
   const { getByText, getByLabelText } = render(<App />)
 
-  user.type(getByLabelText(/todo/i), "task1")
-  user.click(getByText(/add/i))
+  const taskInput = getByLabelText(/todo/i)
+  const addButton = getByText(/add/i)
 
+  user.type(taskInput, "task1")
+  user.click(addButton)
   expect(getByText(/task1/i)).toBeInTheDocument()
+  expect(taskInput).toHaveValue("")
 })

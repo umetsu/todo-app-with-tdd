@@ -16,6 +16,7 @@ export function App() {
       content: inputValue,
     }
     setTask(task)
+    setInputValue("")
   }
 
   return (
