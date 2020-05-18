@@ -2,6 +2,7 @@ import { render } from "@testing-library/react"
 import user from "@testing-library/user-event"
 import React from "react"
 import { App } from "./App"
+import { Task } from "./todo"
 
 test("タスクの追加と一覧表示", async () => {
   const { findByText, findAllByText, findByLabelText, queryByText } = render(
@@ -36,4 +37,22 @@ test("タスクの追加と一覧表示", async () => {
 
   // 複数件表示
   expect(await findAllByText(/task./i)).toHaveLength(2)
+})
+
+test("タスクの完了状態の切り替え", async () => {
+  const tasks: ReadonlyArray<Task> = [
+    { id: "id1", content: "task1", completed: false },
+    { id: "id2", content: "task2", completed: false },
+  ]
+
+  const { findAllByLabelText } = render(<App tasks={tasks} />)
+
+  const [checkbox1, checkbox2] = await findAllByLabelText(/task./i)
+  user.click(checkbox1)
+  expect(checkbox1).toBeChecked()
+  expect(checkbox2).not.toBeChecked() // 別のタスクには影響がないこと
+
+  user.click(checkbox1)
+  expect(checkbox1).not.toBeChecked()
+  expect(checkbox2).not.toBeChecked()
 })
