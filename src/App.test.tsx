@@ -1,12 +1,17 @@
+import { configureStore } from "@reduxjs/toolkit"
 import { render } from "@testing-library/react"
 import user from "@testing-library/user-event"
 import React from "react"
+import { Provider } from "react-redux"
 import { App } from "./App"
+import { reducer } from "./store"
 import { Task } from "./todo"
 
 test("タスクの追加と一覧表示", async () => {
   const { findByText, findAllByText, findByLabelText, queryByText } = render(
-    <App />
+    <Provider store={configureStore({ reducer })}>
+      <App />
+    </Provider>
   )
   expect(await findByText(/empty/i)).toBeInTheDocument()
 
@@ -45,7 +50,20 @@ test("タスクの完了状態の切り替え", async () => {
     { id: "id2", content: "task2", completed: false },
   ]
 
-  const { findAllByLabelText } = render(<App tasks={tasks} />)
+  const { findAllByLabelText } = render(
+    <Provider
+      store={configureStore({
+        reducer,
+        preloadedState: {
+          todo: {
+            tasks: tasks,
+          },
+        },
+      })}
+    >
+      <App />
+    </Provider>
+  )
 
   const [checkbox1, checkbox2] = await findAllByLabelText(/task./i)
   user.click(checkbox1)

@@ -1,31 +1,19 @@
-import React, { useState } from "react"
+import React from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { AddTask } from "./AddTask"
 import { TaskList } from "./TaskList"
-import { Task } from "./todo"
+import { addTask, selectTasks, Task, toggleCompleted } from "./todo"
 
-type Props = {
-  tasks?: ReadonlyArray<Task>
-}
-
-export function App({ tasks: initialTasks = [] }: Props) {
-  const [tasks, setTasks] = useState<ReadonlyArray<Task>>(initialTasks)
+export function App() {
+  const dispatch = useDispatch()
+  const tasks = useSelector(selectTasks)
 
   const handleAddTask = (taskContent: string) => {
-    const task: Task = {
-      id: randomString(),
-      content: taskContent,
-      completed: false,
-    }
-    setTasks((tasks) => [task, ...tasks])
+    dispatch(addTask({ content: taskContent }))
   }
 
   const handleItemClick = (selectedTask: Task) => {
-    setTasks((tasks) =>
-      tasks.map((t) => ({
-        ...t,
-        completed: t.id === selectedTask.id ? !t.completed : t.completed,
-      }))
-    )
+    dispatch(toggleCompleted({ id: selectedTask.id }))
   }
 
   return (
@@ -34,8 +22,4 @@ export function App({ tasks: initialTasks = [] }: Props) {
       <TaskList tasks={tasks} onItemClick={handleItemClick} />
     </div>
   )
-}
-
-function randomString(): string {
-  return Math.random().toString(36).substring(7)
 }
