@@ -26,9 +26,11 @@ export function App() {
         <input id={"task-input"} value={inputValue} onChange={handleChange} />
         <button type={"submit"}>Add</button>
       </form>
-      {tasks.map((task, index) => (
-        <div key={index}>{task.content}</div>
-      ))}
+      {tasks.length === 0 ? (
+        <div>Empty</div>
+      ) : (
+        tasks.map((task, index) => <div key={index}>{task.content}</div>)
+      )}
     </div>
   )
 }
