@@ -25,7 +25,7 @@ const todoSlice = createSlice({
         content: action.payload.content,
         completed: false,
       }
-      state.tasks.push(task)
+      state.tasks.unshift(task)
     },
     toggleCompleted: (state, action: PayloadAction<{ id: string }>) => {
       state.tasks = state.tasks.map((t) => ({
