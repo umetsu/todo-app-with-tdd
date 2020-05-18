@@ -12,6 +12,10 @@ export function App() {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
+    if (!inputValue.trim()) {
+      return
+    }
+
     const task: Task = {
       content: inputValue,
     }

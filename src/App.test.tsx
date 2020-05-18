@@ -12,6 +12,16 @@ test("タスクの追加と一覧表示", () => {
   const taskInput = getByLabelText(/todo/i)
   const addButton = getByText(/add/i)
 
+  // 空文字ならタスクは追加されない
+  user.type(taskInput, "")
+  user.click(addButton)
+  expect(getByText(/empty/i)).toBeInTheDocument()
+
+  // スペースでも同様に追加されない
+  user.type(taskInput, " ")
+  user.click(addButton)
+  expect(getByText(/empty/i)).toBeInTheDocument()
+
   // 1件表示
   user.type(taskInput, "task1")
   user.click(addButton)
