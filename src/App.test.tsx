@@ -4,7 +4,10 @@ import React from "react"
 import { App } from "./App"
 
 test("タスクの追加と一覧表示", () => {
-  const { getByText, getAllByText, getByLabelText } = render(<App />)
+  const { getByText, getAllByText, getByLabelText, queryByText } = render(
+    <App />
+  )
+  expect(getByText(/empty/i)).toBeInTheDocument() // Emptyが表示されていること
 
   const taskInput = getByLabelText(/todo/i)
   const addButton = getByText(/add/i)
@@ -14,6 +17,7 @@ test("タスクの追加と一覧表示", () => {
   user.click(addButton)
   expect(getByText(/task1/i)).toBeInTheDocument()
   expect(taskInput).toHaveValue("")
+  expect(queryByText(/empty/i)).not.toBeInTheDocument() // Emptyが非表示になっていること
 
   // 複数件表示
   user.type(taskInput, "task2")
