@@ -2,7 +2,7 @@ import React, { ChangeEvent, FormEvent, useState } from "react"
 import { Task } from "./todo"
 
 export function App() {
-  const [task, setTask] = useState<Task | null>(null)
+  const [tasks, setTasks] = useState<ReadonlyArray<Task>>([])
   const [inputValue, setInputValue] = useState<string>("")
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -15,7 +15,7 @@ export function App() {
     const task: Task = {
       content: inputValue,
     }
-    setTask(task)
+    setTasks((tasks) => [task, ...tasks])
     setInputValue("")
   }
 
@@ -26,7 +26,9 @@ export function App() {
         <input id={"task-input"} value={inputValue} onChange={handleChange} />
         <button type={"submit"}>Add</button>
       </form>
-      {task && <div>{task.content}</div>}
+      {tasks.map((task, index) => (
+        <div key={index}>{task.content}</div>
+      ))}
     </div>
   )
 }
